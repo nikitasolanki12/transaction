@@ -3,15 +3,14 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+  post '/auth/login', to: 'authentication#login'
+  get '/api/check_balance', to: 'wallets#show'
+  get '/api/transaction', to: 'transactions#create'
 
-  get    '/signin',   to: 'sessions#new'
-  post   '/signin',   to: 'sessions#create'
-  delete '/signout',  to: 'sessions#destroy'
+  resources :users, only: [:new, :create]
 
-  resources :users
-
-  namespace :api do
-    resources :transactions
-    get 'balances/:user_type/:user_id', to: 'balances#show'
-  end
+  # namespace :api do
+  #   resources :transactions
+  #   get 'balances/:user_type/:user_id', to: 'balances#show'
+  # end
 end

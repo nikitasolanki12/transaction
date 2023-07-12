@@ -1,28 +1,23 @@
 class Api::WalletsController < ApplicationController
+  before_action :authorize_request, only: :create
+  
+  # GET balance
   def show
-      # user = User.find_by_id(id)
-      user = User.find(id)
-      user_type = user.type
-      user_id = user.id
-      balance = calculate_balance(user_type, user_id)
-     
-      if balance.nil?
-        render json: { error: "User not found" }, status: :not_found
-      else
-        render json: { user_type: user.type, user_id: user.id, balance: balance }
-      end
-    end
+    wallet = @current_account.wallet
+    
+    render json: { account_type: @current_account.type, account_id: @current_account.id, balance: wallet.calculated_balance }
+  end
 
-    private
+  private
 
-    def calculate_balance(user_type, user_id)
-      case user_type
-      when "Team"
-        Team.find_by(id: user_id)&.transactions&.sum(:amount)
-      when "Stock"
-        Stock.find_by(id: user_id)&.transactions&.sum(:amount)
-      else
-        nil
-      end
+  def calculate_balance(user_type, user_id)
+    case user_type
+    when "Team"
+      Team.find_by(id: user_id)&.transactions&.sum(:amount)
+    when "Stock"
+      Stock.find_by(id: user_id)&.transactions&.sum(:amount)
+    else
+      nil
     end
+  end
 end

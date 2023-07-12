@@ -1,3 +1,2 @@
-class Stock < User
-
+class Stock < Account
 end

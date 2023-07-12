@@ -1,10 +1,12 @@
-class CreateUsers < ActiveRecord::Migration[7.0]
+class CreateAccount < ActiveRecord::Migration[7.0]
   def change
-    create_table :users do |t|
+    create_table :accounts do |t|
       t.string :first_name
       t.string :last_name
       t.string :type
-      t.float :wallet_balance
+      t.string :username
+      t.string :email
+      t.string :password_digest
 
       t.timestamps
     end

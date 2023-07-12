@@ -1,3 +1,2 @@
-class Team < User
-
+class Team < Account
 end
